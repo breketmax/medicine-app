@@ -1,3 +1,4 @@
+
 import { ISupplement, IPurpose, ISupp } from '../types/ISupplement';
 
 
@@ -29,6 +30,37 @@ export const getCatalog = (suppliment:ISupplement ) =>{
 }
 
 
+const sortSupplements = (supplements:ISupp[],filter:string) =>{
+  let regExp = /(\w+)_(\w+)/;
+  let params:RegExpMatchArray | null = filter.match(regExp);
+  let sort:string;
+  let field:string;
+
+
+  if(params){
+    field = params[1];
+    sort = params[2]
+  }
+  else{
+    return supplements
+  }
+  
+
+  if(sort === "increase"){
+    supplements.sort((a,b) => (
+      a[field as keyof ISupp ] > b[field as keyof ISupp] ? 1 : -1
+    ))
+  }else{
+    supplements.sort((a,b) => (
+      a[field as keyof ISupp ] < b[field as keyof ISupp] ? 1 : -1
+    ))
+  }
+
+  return supplements;
+
+}
+
+
 export const getFilteredSupplements = (supplements:ISupp[],activeCatalog:string,filter:string) => {
   let filteredSupplements:ISupp[] = [];
   
@@ -47,7 +79,12 @@ export const getFilteredSupplements = (supplements:ISupp[],activeCatalog:string,
     filteredSupplements = [...supplements];
   }
 
+  let filteredAndSortedSupplements = sortSupplements(filteredSupplements,filter);
 
 
   return filteredSupplements;
 }
+
+
+
+

@@ -8,7 +8,7 @@ interface SupplementState{
   isLoading:boolean,
   error:string,
   activeCatalog:string,
-  filter:""
+  filter:string
 }
 
 const initialState:SupplementState = {
@@ -28,7 +28,10 @@ const supplementSlice = createSlice({
   reducers:{
     changeActiveCatalog(state,action:PayloadAction<string>){
       state.activeCatalog = action.payload;
-    }
+    },
+    changeFilter(state,action:PayloadAction<string>){
+      state.filter = action.payload;
+    },
   },
   extraReducers:{
     [fetchSupplement.pending.type]:(state)=>{
@@ -49,4 +52,4 @@ const supplementSlice = createSlice({
 
 
 export default supplementSlice.reducer;
-export const {changeActiveCatalog} = supplementSlice.actions;
+export const {changeActiveCatalog,changeFilter} = supplementSlice.actions;

@@ -1,10 +1,10 @@
 .category-panel{
   border-right: 1px solid #00000052;
-  width: 280px;
+  min-width: 280px;
   height: 100vh;
 }
 .category-panel.closed{
-  width: 78px;
+  min-width: 78px;
 }
 .panel-header{
   display: flex;
@@ -21,6 +21,7 @@
 }
 .category-panel .category-item{
   cursor: pointer;
+  white-space: nowrap;
 }
 .category-panel .category-item.active{
   background-color: #1976D2;

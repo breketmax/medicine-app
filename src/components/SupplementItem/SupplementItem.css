@@ -1,0 +1,40 @@
+.supplement_item{
+  display: grid;
+  grid-template-columns: 56px 200px auto 140px 110px;
+  grid-auto-flow: row;
+  border-top: 2px solid rgba(0, 0, 0, 0.16);
+  column-gap: 25px;
+  padding: 8px 0;
+  align-items: center;
+}
+.supplement-image{
+  border-radius: 50%;
+  height: 56px;
+  overflow: hidden;
+}
+.supplement-image img{
+  width: 100%;
+  transform: scale(1.6) translateY(6px);
+  
+}
+.supplement-price{
+  text-align: right;
+}
+
+.supplement-name{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.supplement-price{
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+}
+.supplement-description{
+  font-weight: 400;
+font-size: 14px;
+line-height: 18px;
+color: rgba(0, 0, 0, 0.64);
+}

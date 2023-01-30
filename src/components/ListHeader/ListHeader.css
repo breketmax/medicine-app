@@ -1,0 +1,15 @@
+.supplement-header{
+  display: grid;
+  grid-template-columns: 306px auto 275px;
+  font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+padding: 8px 0;
+}
+.name-header button,.price-header button{
+  margin-left: 5px;
+  cursor: pointer;
+}
+.supplement-header .selected path{
+  stroke:#1976d2;
+}

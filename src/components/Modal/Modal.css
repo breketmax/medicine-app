@@ -1,0 +1,84 @@
+.modal-wrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.32);
+  z-index: 10;
+  display: none;
+}
+.modal-wrapper.show{
+  display: block;
+}
+.modal-window{
+  position: absolute;
+  z-index: 11;
+  background-color: white;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+}
+.modal-window .modal-header{
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  display: grid;
+  grid-template-columns: 32px auto 1fr ;
+  column-gap: 16px;
+  align-items: center;
+}
+.modal-window .modal-header .modal-image{
+  border-radius: 50%;
+  overflow: hidden;
+  height: 32px;
+ 
+}
+.modal-window .modal-header .modal-name{
+  font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+color: var(--black);
+}
+.modal-window .modal-header .modal-image img{
+  width: 100%;
+  height: auto; 
+  transform: scale(2)  translateY(4px);
+}
+.modal-body-wrapper{
+  padding:16px 55px 16px 16px ;
+}
+.modal-window .modal-body{
+
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 35px;
+  grid-auto-flow: row;
+}
+.modal-window .modal-body .static-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 200px auto;
+}
+.modal-window .modal-body .computed-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 76px auto;
+  align-items: end
+  
+}
+
+.modal-window  .custom-btn{
+  margin-left: auto;
+  display: block;
+  margin-top: 16px;
+  
+}
+.computed-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

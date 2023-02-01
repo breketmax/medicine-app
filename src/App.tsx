@@ -4,6 +4,7 @@ import { fetchSupplement } from './store/reducers/ActionCreator';
 import "./App.css"
 import CategoryPanel from './layout/CategoryPanel/CategoryPanel';
 import SupplementList from './layout/SupplementList/SupplementList';
+import Modal from './components/Modal/Modal';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ function App() {
   }
   return (
     <div className="App">
+      <Modal/>
       <CategoryPanel/>
       <SupplementList/>
     </div>

@@ -14,7 +14,7 @@ const initialState:ModalState ={
     period: 'Ежедневно',
     inDay:[
       {
-        time:"11:00",      
+        time:"23:00",      
         doza:1
       },
     ],
@@ -29,10 +29,12 @@ const modalSlice = createSlice({
   reducers:{
     setModalProduct(state,action:PayloadAction<ISupp>){
       state.modalProduct = [action.payload];
-      state.supplementSchedule.article = action.payload.Article
+      state.supplementSchedule.article = action.payload.Article;
+
     },
     unsetModalProduct(state){
       state.modalProduct = [];
+      state.supplementSchedule = initialState.supplementSchedule;
     },
     changeInDay(state,action:PayloadAction<IInDay[]>){
       state.supplementSchedule.inDay.push(...action.payload)

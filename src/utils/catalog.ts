@@ -79,7 +79,7 @@ export const getFilteredSupplements = (supplements:ISupp[],activeCatalog:string,
     filteredSupplements = [...supplements];
   }
 
-  let filteredAndSortedSupplements = sortSupplements(filteredSupplements,filter);
+  sortSupplements(filteredSupplements,filter);
 
   return filteredSupplements;
 }
@@ -90,7 +90,7 @@ export const calcNextScheduleTime = (lastTime:string,index:number):string =>{
   let lastHour = Number(lastTime.match(/^\d+/gm));
   lastHour+=index;
   if(lastHour >= 24){
-    return `${lastHour-24}:00`
+    return `${lastHour-24 < 10 ? "0" : ""}${lastHour-24}:00`
   }
   return `${lastHour}:00`
 };

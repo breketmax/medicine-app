@@ -95,7 +95,7 @@ const Modal:React.FC = () => {
     }
     else{
       let additionalDayTaking:IInDay[] = [];
-      for (let i = 1; i < Number(e.target.value); i++) {
+      for (let i = 1; i < (Number(e.target.value) - supplementSchedule.inDay.length + 1); i++) {
         let newDayTake:IInDay = {
           time:calcNextScheduleTime(supplementSchedule.inDay[supplementSchedule.inDay.length - 1].time,i),
           doza:1
@@ -123,15 +123,18 @@ const Modal:React.FC = () => {
                 </div>
                 <div className="computed-wrapper">
 
-
-                  <div className="computed-body">
-                    <Input title="Время" onChange={() =>{}} value="11:00"/>
-                    <Select title='Дозировка' options={doza} selected><button className="delete-day"><Close/></button></Select>   
-                  </div>
-                  <div className="computed-body">
-                    <Input onChange={() =>{}} value="11:00"/>
-                    <Select options={doza} selected><button className="delete-day"><Close/></button></Select>   
-                  </div>
+                {supplementSchedule.inDay.map((ind,i) => (
+                  i === 0 ? <div className="computed-body">
+                  <Input title="Время" onChange={() =>{}} value={ind.time}/>
+                  <Select title='Дозировка' options={doza} selected><button className="delete-day"><Close/></button></Select>   
+                </div> :
+                   <div className="computed-body">
+                   <Input onChange={() =>{}} value={ind.time}/>
+                   <Select options={doza} selected><button className="delete-day"><Close/></button></Select>   
+                 </div>
+                ))}
+                  
+                 
                 </div>
               </div>
               <Button onClick={() =>{}} status={true}>Добавить в курс</Button>

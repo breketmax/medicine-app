@@ -11,15 +11,17 @@ interface SelectProps{
   selected:boolean,
   title?:string
   children?:React.ReactNode,
-  onChange?:React.ChangeEventHandler<HTMLSelectElement>
+  onChange?:React.ChangeEventHandler<HTMLSelectElement>,
+  defaultValue?:number | string,
+  value?:number
 }
 
-const Select:React.FC<SelectProps> = ({options,selected,title,children,onChange}) => {
+const Select:React.FC<SelectProps> = ({options,selected,title,children,onChange,defaultValue,value}) => {
   return (
     <div className="custom-select-block">
       <span className='select-title'>{title}</span>
       <div className="select-wrapper">
-        <select className="custom-select" onChange={onChange} >
+        <select className="custom-select" onChange={onChange}  defaultValue={defaultValue} value={value}>
           {options.map(opt => (<option key={opt.name} value={opt.value} >{opt.name}</option>))}
         </select>
         {children}

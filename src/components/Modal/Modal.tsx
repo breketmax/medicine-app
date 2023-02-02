@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { changeInDay, sliceInDay, unsetModalProduct } from '../../store/reducers/ModalSlice';
+import { changeInDay, sliceInDay, unsetModalProduct,changeTime,changeDose,deleteTaking,sortTimes} from '../../store/reducers/ModalSlice';
 import Input from '../Input/Input';
 import Select from '../Select/Select';
 import "./Modal.css";
 import {ReactComponent as Close} from "./close.svg";
 import Button from '../Button/Button';
 import { IInDay } from '../../types/ISchedule';
-import { calcNextScheduleTime } from '../../utils/catalog';
+import { calcNextScheduleTime, getScheduleString } from '../../utils/catalog';
 
 
  
@@ -20,7 +20,6 @@ const Modal:React.FC = () => {
     {
       name:"1",
       value:1,
-      default:true
     },
     {
       name:"2",
@@ -88,7 +87,9 @@ const Modal:React.FC = () => {
     e.stopPropagation();
   };
 
-
+  const changeTimeHandler = (e:React.ChangeEvent<HTMLInputElement>,i:number) => {
+    dispatch(changeTime({i,timeValue:e.target.value}))
+  }
   const handleInDay = (e:React.ChangeEvent<HTMLSelectElement>) => {
     if(supplementSchedule.inDay.length > +e.target.value){
       dispatch(sliceInDay(+e.target.value))
@@ -105,7 +106,19 @@ const Modal:React.FC = () => {
       dispatch(changeInDay(additionalDayTaking));
     }
   }
+  const changeDoseHandler = (e:React.ChangeEvent<HTMLSelectElement>,i:number) => {
+    dispatch(changeDose({i,dozeValue:+e.target.value}))
+  }
+  const handleTaking =(i:number) => {
+    dispatch(deleteTaking(i))
+    if(!i){
+      closeModal()
+    }
+  }
 
+  const orderTimesHandler = () =>{
+    dispatch(sortTimes());
+  };
   return (
     supplement &&
     <div className={isShow ?"modal-wrapper show" :"modal-wrapper"} onClick={closeModal}>
@@ -113,24 +126,24 @@ const Modal:React.FC = () => {
             <div className="modal-header">
               <div className="modal-image"><img src={supplement.Picture} alt="product-preview" /></div>
               <div className="modal-name">{supplement.GoodsCommercialName}</div>
-              <div className="modal-info">1шт:афав</div>
+              <div className="modal-info">{getScheduleString(supplementSchedule.inDay)}</div>
             </div>
             <div className="modal-body-wrapper">
               <div className="modal-body">
                 <div className="static-body">
-                  <Select title='Как принимать?' options={periodOptions} selected/>
-                  <Select title='Сколько раз в день' options={inDay} selected onChange={handleInDay}/>
+                  <Select title='Как принимать?' options={periodOptions} selected defaultValue="daily"/>
+                  <Select title='Сколько раз в день' options={inDay} selected onChange={handleInDay} value={supplementSchedule.inDay.length}/>
                 </div>
                 <div className="computed-wrapper">
 
                 {supplementSchedule.inDay.map((ind,i) => (
-                  i === 0 ? <div className="computed-body">
-                  <Input title="Время" onChange={() =>{}} value={ind.time}/>
-                  <Select title='Дозировка' options={doza} selected><button className="delete-day"><Close/></button></Select>   
+                  i === 0 ? <div className="computed-body" key={i}>
+                  <Input title="Время" onChange={(e) => changeTimeHandler(e,i)} value={ind.time} onBlur={orderTimesHandler}/>
+                  <Select title='Дозировка' options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day"  onClick={() => handleTaking(i)}><Close/></button></Select>   
                 </div> :
-                   <div className="computed-body">
-                   <Input onChange={() =>{}} value={ind.time}/>
-                   <Select options={doza} selected><button className="delete-day"><Close/></button></Select>   
+                   <div className="computed-body" key={i}>
+                   <Input onChange={(e) => changeTimeHandler(e,i)}  value={ind.time} onBlur={orderTimesHandler}/>
+                   <Select options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day" onClick={() => handleTaking(i)}><Close/></button></Select>   
                  </div>
                 ))}
                   

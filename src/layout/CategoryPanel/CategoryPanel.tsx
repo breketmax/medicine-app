@@ -18,7 +18,6 @@ const CategoryPanel:React.FC = () => {
   const [panelClosed,setPanelClosed] = useState<boolean>(false);
   useEffect(() => {
     setCatalog(getCatalog(supplements));
-    console.log("rere");
   }, [supplements]);
 
   const handlePanel =() =>{

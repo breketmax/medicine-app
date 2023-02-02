@@ -1,3 +1,4 @@
+import { IInDay } from './../types/ISchedule';
 
 import { ISupplement, IPurpose, ISupp } from '../types/ISupplement';
 
@@ -92,8 +93,44 @@ export const calcNextScheduleTime = (lastTime:string,index:number):string =>{
   if(lastHour >= 24){
     return `${lastHour-24 < 10 ? "0" : ""}${lastHour-24}:00`
   }
-  return `${lastHour}:00`
+  return `${lastHour < 10 ? "0" : ""}${lastHour}:00`
 };
 
 
+export const getWordsEnd = (value:number):string => {
+  let lastTwoNumbers = value % 100;
+  let str = `${value} прием`;
+  if(lastTwoNumbers >=11 && lastTwoNumbers<=19){
+    return str + "ов"
+  }
+  else{
+    let lastNumber = value %10;
+    switch(lastNumber){
+      case 1:
+        return str + ""
+      case 2:
+      case 3:
+      case 4:
+        return str +"а"
+      default:
+        return str + "ов"
+    }
+  }  
+}
 
+
+export const getScheduleString = (supplementSchedule:IInDay[]):string => {
+  let suppString:string = getWordsEnd(supplementSchedule.length) + ": ";
+
+
+  suppString += supplementSchedule.map(taking => {
+    let takeStr:string = "";
+    takeStr+= " " + taking.time;
+    takeStr+= taking.doza >= 1 ? ` ${taking.doza} шт` : taking.doza === 0.25 ? " ¼ шт" : " ½ шт";
+    return takeStr ;
+  })
+
+
+  return suppString;
+
+}

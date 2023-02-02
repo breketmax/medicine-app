@@ -41,4 +41,5 @@ color:var(--black)
   position: absolute;
   top: 50%;
   transform: translate(15px,-50%);
+  cursor: pointer;
 }

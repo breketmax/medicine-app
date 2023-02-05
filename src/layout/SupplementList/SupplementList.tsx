@@ -16,7 +16,7 @@ const SupplementList = () => {
   return (
     <div className="supllement-list">
       <ListHeader/>
-      {filteredCatalog.map(s=>(<SupplementItem {...s}/>))}
+      {filteredCatalog.map(s=>(<SupplementItem {...s} key={s.Article}/>))}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import "./App.css"
 import CategoryPanel from './layout/CategoryPanel/CategoryPanel';
 import SupplementList from './layout/SupplementList/SupplementList';
 import Modal from './components/Modal/Modal';
+import CoursePanel from './layout/CoursePanel/CoursePanel';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ function App() {
       <Modal/>
       <CategoryPanel/>
       <SupplementList/>
+      <CoursePanel/>
     </div>
   );
 }

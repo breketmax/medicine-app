@@ -1,0 +1,114 @@
+.course-time-item{
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px 0px #00000029;
+}
+.course-time-item .cti-header{
+  padding: 8px 16px;
+
+  display: grid;
+  grid-template-columns:14px auto 1fr 20px;
+  column-gap: 16px;
+  align-items: center;
+}
+
+.cti-delete-btn svg{
+  width: 20px;
+  display: block;
+  height: 25px;
+} 
+
+.cti-delete-btn svg path{
+  fill:#A61911;
+}
+.course-time-item .cti-header .cti-name{
+  font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+color: var(--black);
+}
+.course-time-item .cti-header .cti-minimized-btn svg{
+  transform: rotate(180deg);
+}
+.course-time-item button{
+  cursor: pointer;
+}
+.cti-body-wrapper{
+  padding:16px 55px 16px 16px ;
+  border-top: 1px solid rgba(0, 0, 0, 0.16);
+}
+.course-time-item .cti-body{
+
+  display: grid;
+  grid-template-columns: auto;
+  row-gap: 8px;
+
+}
+.course-time-item .cti-body .static-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 200px auto;
+}
+.course-time-item .cti-body .computed-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 76px auto;
+  align-items: end
+  
+}
+
+.cti-info{
+  text-align: right;
+  white-space: nowrap; 
+overflow: hidden; 
+  margin-left: 16px;
+text-overflow: ellipsis; 
+}
+.computed-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.course-panel.closed .course-time-item{
+  background-color: transparent;
+  box-shadow: none;
+}
+.course-panel.closed .cti-header{
+  grid-template-columns: 32px 1fr;
+  column-gap: 16px;
+}
+.course-panel.closed .cti-header .cti-name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.course-panel.closed .cti-header button,.course-panel.closed .cti-header .cti-info{
+  display: none;
+}
+.course-time-item.minimized .cti-header .cti-minimized-btn svg{
+  transform: rotate(0deg);
+}
+.course-time-item.minimized .cti-body-wrapper{
+  display: none;
+}
+
+.cti-body .cti-item{
+  display: grid;
+  grid-template-columns: 32px  1fr auto;
+  align-items: center;
+  column-gap: 16px
+}
+.cti-body .cti-item .cti-image img{
+  width: 100%;
+  height: auto; 
+  transform: scale(1.6)  translateY(4px);
+}
+.course-time-item .cti-item .cti-image{
+  border-radius: 50%;
+  overflow: hidden;
+  height: 32px;
+ 
+}

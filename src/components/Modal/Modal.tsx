@@ -7,16 +7,18 @@ import "./Modal.css";
 import {ReactComponent as Close} from "./close.svg";
 import Button from '../Button/Button';
 import { IInDay } from '../../types/ISchedule';
-import { calcNextScheduleTime, getScheduleString } from '../../utils/catalog';
+import { calcNextScheduleTime, getScheduleString, validateTime } from '../../utils/catalog';
+import { addSupplementInCourse } from '../../store/reducers/CourseSlice';
 
 
  
 const Modal:React.FC = () => {
-  const {modalProduct:[supplement],supplementSchedule} = useAppSelector(state => state.rootReducer.modalReducer)
+  const {inDay,period,supplement} = useAppSelector(state => state.rootReducer.modalReducer)
   const [isShow,setIsShow] = useState<boolean>(false);
+  const [inputStartValue,setInputStartValue] = useState<string>("")
   const dispatch = useAppDispatch();
   const periodOptions =[{name:"Ежедневно",value:"daily"},{name:"Еженедельно",value:"weekly"}];
-  const inDay = [
+  const inDayOptions = [
     {
       name:"1",
       value:1,
@@ -70,14 +72,14 @@ const Modal:React.FC = () => {
   ]
 
   useEffect(() => {
-    if(supplement){
+    if(supplement.Article){
       setIsShow(true);
     }
     else{
       setIsShow(false)
     }
 
-  }, [supplement]);
+  }, [supplement.Article]);
 
   const closeModal = () => {
     dispatch(unsetModalProduct());
@@ -88,17 +90,19 @@ const Modal:React.FC = () => {
   };
 
   const changeTimeHandler = (e:React.ChangeEvent<HTMLInputElement>,i:number) => {
-    dispatch(changeTime({i,timeValue:e.target.value}))
+    let timeValue = validateTime(inDay[i].time,e.target.value);
+
+    dispatch(changeTime({i,timeValue}))
   }
   const handleInDay = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    if(supplementSchedule.inDay.length > +e.target.value){
+    if(inDay.length > +e.target.value){
       dispatch(sliceInDay(+e.target.value))
     }
     else{
       let additionalDayTaking:IInDay[] = [];
-      for (let i = 1; i < (Number(e.target.value) - supplementSchedule.inDay.length + 1); i++) {
+      for (let i = 1; i < (Number(e.target.value) - inDay.length + 1); i++) {
         let newDayTake:IInDay = {
-          time:calcNextScheduleTime(supplementSchedule.inDay[supplementSchedule.inDay.length - 1].time,i),
+          time:calcNextScheduleTime(inDay[inDay.length - 1].time,i),
           doza:1
         }
         additionalDayTaking.push(newDayTake);
@@ -111,14 +115,29 @@ const Modal:React.FC = () => {
   }
   const handleTaking =(i:number) => {
     dispatch(deleteTaking(i))
-    if(!i){
-      closeModal()
-    }
   }
 
-  const orderTimesHandler = () =>{
+  const orderTimesHandler = (i:number) =>{
+    let [hours,minutes] = inDay[i].time.split(":");
+    if(!hours.length || !minutes.length){
+      dispatch(changeTime({i,timeValue:inputStartValue}));
+      return
+    }
+    hours = hours.length ===1 ? "0" + hours : hours;
+    minutes = minutes.length ===1 ? "0" + minutes : minutes;
+    let timeValue = hours + ":" + minutes;
+
+    dispatch(changeTime({i,timeValue}))
     dispatch(sortTimes());
   };
+
+  const saveStartValue = (e:React.FocusEvent<HTMLInputElement>) => {
+    setInputStartValue(e.target.value);
+  };
+  const addInCourse = () => {
+    dispatch(unsetModalProduct());
+    dispatch(addSupplementInCourse({inDay,period,supplement}))
+  }
   return (
     supplement &&
     <div className={isShow ?"modal-wrapper show" :"modal-wrapper"} onClick={closeModal}>
@@ -126,31 +145,29 @@ const Modal:React.FC = () => {
             <div className="modal-header">
               <div className="modal-image"><img src={supplement.Picture} alt="product-preview" /></div>
               <div className="modal-name">{supplement.GoodsCommercialName}</div>
-              <div className="modal-info">{getScheduleString(supplementSchedule.inDay)}</div>
+              <div className="modal-info">{getScheduleString(inDay)}</div>
             </div>
             <div className="modal-body-wrapper">
               <div className="modal-body">
                 <div className="static-body">
                   <Select title='Как принимать?' options={periodOptions} selected defaultValue="daily"/>
-                  <Select title='Сколько раз в день' options={inDay} selected onChange={handleInDay} value={supplementSchedule.inDay.length}/>
+                  <Select title='Сколько раз в день' options={inDayOptions} selected onChange={handleInDay} value={inDay.length}/>
                 </div>
                 <div className="computed-wrapper">
 
-                {supplementSchedule.inDay.map((ind,i) => (
+                {inDay.map((ind,i) => (
                   i === 0 ? <div className="computed-body" key={i}>
-                  <Input title="Время" onChange={(e) => changeTimeHandler(e,i)} value={ind.time} onBlur={orderTimesHandler}/>
+                  <Input title="Время" onChange={(e) => changeTimeHandler(e,i)} value={ind.time} onBlur={() => orderTimesHandler(i)} onFocus={saveStartValue}/>
                   <Select title='Дозировка' options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day"  onClick={() => handleTaking(i)}><Close/></button></Select>   
                 </div> :
                    <div className="computed-body" key={i}>
-                   <Input onChange={(e) => changeTimeHandler(e,i)}  value={ind.time} onBlur={orderTimesHandler}/>
+                   <Input onChange={(e) => changeTimeHandler(e,i)}  value={ind.time} onBlur={() => orderTimesHandler(i)} onFocus={saveStartValue}/>
                    <Select options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day" onClick={() => handleTaking(i)}><Close/></button></Select>   
                  </div>
                 ))}
-                  
-                 
                 </div>
               </div>
-              <Button onClick={() =>{}} status={true}>Добавить в курс</Button>
+              <Button onClick={addInCourse} status={true}>Добавить в курс</Button>
             </div>
 
         </div>

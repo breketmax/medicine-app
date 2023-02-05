@@ -1,3 +1,4 @@
+import { ModalState } from './../store/reducers/ModalSlice';
 import { IInDay } from './../types/ISchedule';
 
 import { ISupplement, IPurpose, ISupp } from '../types/ISupplement';
@@ -121,8 +122,6 @@ export const getWordsEnd = (value:number):string => {
 
 export const getScheduleString = (supplementSchedule:IInDay[]):string => {
   let suppString:string = getWordsEnd(supplementSchedule.length) + ": ";
-
-
   suppString += supplementSchedule.map(taking => {
     let takeStr:string = "";
     takeStr+= " " + taking.time;
@@ -134,3 +133,28 @@ export const getScheduleString = (supplementSchedule:IInDay[]):string => {
   return suppString;
 
 }
+
+export const validateTime =(prev:string,value:string):string =>{
+  if(/[^:\d]/gm.test(value)){   //ban for non digit characters
+    return prev
+  }
+
+  let [hours,minutes]:string[] = value.split(":")    //calculate correct of hrs and mts
+  if(+hours >23 || +minutes > 59 || value.length > 5){
+    if(+hours > 99) return value.slice(0,2) + ":" + value.slice(2)
+    return prev.length === 2 ? prev + ":": prev
+  }
+
+
+  return value;
+};
+
+export const getCourseString = (timeSchedule:ModalState[],time:string):string =>{
+  let sumDoze:number = 0;
+  timeSchedule.forEach(ts => {
+    sumDoze += ts.inDay.filter( t => t.time === time)[0].doza
+  })
+  let courseString = sumDoze + " шт: ";
+  courseString += timeSchedule.map(sup => (" " + sup.supplement.GoodsCommercialName+ " " + sup.inDay.filter(t => t.time === time)[0].doza + "шт"))
+  return courseString 
+};

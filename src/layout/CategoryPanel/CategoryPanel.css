@@ -52,8 +52,9 @@
   display: flex;
   justify-content: space-between;
 }
-.category-panel .category-title img{
-  width: 20px;
+.category-panel .category-title svg{
+  width: 14px;
+  height: auto;
   opacity: 0.8;
 }
 .category-panel .category.opened .category-title{
@@ -65,7 +66,7 @@
   background-color: #1976d2;
   color:white;
 }
-.category-panel .category.opened .category-title img{
+.category-panel .category.opened .category-title svg{
   display: none;
 }
 

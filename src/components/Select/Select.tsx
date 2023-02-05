@@ -8,12 +8,12 @@ interface OptionsProps{
 
 interface SelectProps{
   options:OptionsProps[],
-  selected:boolean,
+  selected?:boolean,
   title?:string
   children?:React.ReactNode,
   onChange?:React.ChangeEventHandler<HTMLSelectElement>,
   defaultValue?:number | string,
-  value?:number
+  value?:number | string
 }
 
 const Select:React.FC<SelectProps> = ({options,selected,title,children,onChange,defaultValue,value}) => {

@@ -1,0 +1,107 @@
+.course-supplement-item{
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px 0px #00000029;
+}
+.course-supplement-item .csi-header{
+  padding: 8px 16px;
+
+  display: grid;
+  grid-template-columns:14px 32px auto 1fr 20px;
+  column-gap: 16px;
+  align-items: center;
+}
+.course-supplement-item .csi-header .csi-image{
+  border-radius: 50%;
+  overflow: hidden;
+  height: 32px;
+ 
+}
+.csi-delete-btn svg{
+  width: 20px;
+  display: block;
+  height: 25px;
+} 
+
+.csi-delete-btn svg path{
+  fill:#A61911;
+}
+.course-supplement-item .csi-header .csi-name{
+  font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+color: var(--black);
+}
+.course-supplement-item .csi-header .csi-minimized-btn svg{
+  transform: rotate(180deg);
+}
+.course-supplement-item .csi-header .csi-image img{
+  width: 100%;
+  height: auto; 
+  transform: scale(1.6)  translateY(4px);
+}
+.course-supplement-item button{
+  cursor: pointer;
+}
+.csi-body-wrapper{
+  padding:16px 55px 16px 16px ;
+  border-top: 1px solid rgba(0, 0, 0, 0.16);
+}
+.course-supplement-item .csi-body{
+
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 35px;
+  grid-auto-flow: row;
+}
+.course-supplement-item .csi-body .static-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 200px auto;
+}
+.course-supplement-item .csi-body .computed-body{
+  display: grid;
+  grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: 76px auto;
+  align-items: end
+  
+}
+
+.csi-info{
+  text-align: right;
+  white-space: nowrap; 
+overflow: hidden; 
+  margin-left: 16px;
+text-overflow: ellipsis; 
+}
+.computed-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.course-panel.closed .course-supplement-item{
+  background-color: transparent;
+  box-shadow: none;
+}
+.course-panel.closed .csi-header{
+  grid-template-columns: 32px 1fr;
+  column-gap: 16px;
+}
+.course-panel.closed .csi-header .csi-name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.course-panel.closed .csi-header button,.course-panel.closed .csi-header .csi-info{
+  display: none;
+}
+.course-supplement-item.minimized .csi-header .csi-minimized-btn svg{
+  transform: rotate(0deg);
+}
+.course-supplement-item.minimized .csi-body-wrapper{
+  display: none;
+}
+

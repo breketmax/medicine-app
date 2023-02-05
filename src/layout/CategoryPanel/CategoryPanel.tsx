@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from "./bm.png";
-import arrow from "./arrow.png";
+import {ReactComponent as Arrow} from "./arrow.svg";
 import menuIcon from "./menu.png";
 import "./CategoryPanel.css";
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -45,7 +45,7 @@ const CategoryPanel:React.FC = () => {
         <div className={[categoriesStatus.catalogOpened ? "category opened" : "category",activeCatalog ==="all" ? "active" : " "].join(" ") }>
           <div className="category-title" onClick={handleCatalog}>
               Категория
-              <img src={arrow} alt="open arrow"/>
+              <Arrow/>
           </div>
           <div className="category-content">
             <ul>
@@ -70,7 +70,7 @@ const CategoryPanel:React.FC = () => {
         <div className={categoriesStatus.documentsOpened? "category opened" : "category" }>
           <div className="category-title" onClick={handleDocuments}>
               Документы
-              <img src={arrow} alt="open arrow"/>
+              <Arrow/>
           </div>
           <div className="category-content">
             <ul>

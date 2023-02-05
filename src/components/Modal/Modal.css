@@ -71,6 +71,13 @@ color: var(--black);
   
 }
 
+.modal-info{
+  text-align: right;
+  white-space: nowrap; 
+overflow: hidden; 
+  margin-left: 16px;
+text-overflow: ellipsis; 
+}
 .modal-window  .custom-btn{
   margin-left: auto;
   display: block;

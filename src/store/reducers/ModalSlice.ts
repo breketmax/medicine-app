@@ -1,10 +1,12 @@
-import { ISchedule, IInDay } from './../../types/ISchedule';
+
 import { ISupp } from './../../types/ISupplement';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IInDay } from '../../types/ISchedule';
 
-interface ModalState{
-  modalProduct:ISupp[],
-  supplementSchedule:ISchedule
+export interface ModalState{
+  supplement:ISupp,
+  period:   "Ежедневно" | "Еженедельно",
+  inDay:IInDay[]
 }
 interface ITime{
   i:number,
@@ -14,19 +16,24 @@ interface IDose{
   i:number,
   dozeValue:number
 }
-
 const initialState:ModalState ={
-  modalProduct:[],
-  supplementSchedule:{
-    article:"",
-    period: 'Ежедневно',
-    inDay:[
-      {
-        time:"10:00",      
-        doza:1
-      },
-    ],
+  supplement:{
+    Article:"",
+    CommercialDescription:"",
+    CurrentPrices:0,
+    GoodsCommercialName:"",
+    Picture:"",
+    Purposes:[],
+    SupplementForm:""
+
   },
+  period: 'Ежедневно',
+  inDay:[
+    {
+      time:"10:00",      
+      doza:1
+    },
+  ],
 
   
 }
@@ -36,37 +43,35 @@ const modalSlice = createSlice({
   initialState,
   reducers:{
     setModalProduct(state,action:PayloadAction<ISupp>){
-      state.modalProduct = [action.payload];
-      state.supplementSchedule.article = action.payload.Article;
-
+      state.supplement = action.payload;
     },
     unsetModalProduct(state){
-      state.modalProduct = [];
-      state.supplementSchedule = initialState.supplementSchedule;
+      state.supplement = initialState.supplement;
+      state.inDay = initialState.inDay;
+      state.period = initialState.period;
     },
     changeInDay(state,action:PayloadAction<IInDay[]>){
-      state.supplementSchedule.inDay.push(...action.payload)
+      state.inDay.push(...action.payload)
     },
     sliceInDay(state,action:PayloadAction<number>){
-      state.supplementSchedule.inDay = state.supplementSchedule.inDay.slice(0,action.payload)
+      state.inDay = state.inDay.slice(0,action.payload)
     },
     changeTime(state,action:PayloadAction<ITime>){
-      state.supplementSchedule.inDay[action.payload.i].time = action.payload.timeValue;
+      state.inDay[action.payload.i].time = action.payload.timeValue;
     },
     sortTimes(state){
-      state.supplementSchedule.inDay = state.supplementSchedule.inDay.sort((a,b) => a.time > b.time ? 1 : -1) 
+      state.inDay = state.inDay.sort((a,b) => a.time > b.time ? 1 : -1) 
     },
     changeDose(state,action:PayloadAction<IDose>){
-      state.supplementSchedule.inDay[action.payload.i].doza = action.payload.dozeValue
+      state.inDay[action.payload.i].doza = action.payload.dozeValue
     },
     deleteTaking(state,action:PayloadAction<number>){
-      if(state.supplementSchedule.inDay.length === 1){
-        state.supplementSchedule.inDay = state.supplementSchedule.inDay.filter((_,i) => i !== action.payload);
-        state.modalProduct = [];
-        state.supplementSchedule = initialState.supplementSchedule; 
+      if(state.inDay.length === 1){
+        state.inDay = state.inDay.filter((_,i) => i !== action.payload);
+        state = initialState; 
         return;
       }
-      state.supplementSchedule.inDay = state.supplementSchedule.inDay.filter((_,i) => i !== action.payload) 
+      state.inDay = state.inDay.filter((_,i) => i !== action.payload) 
     },
   },
 });

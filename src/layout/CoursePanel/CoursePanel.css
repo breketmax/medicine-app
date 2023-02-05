@@ -1,0 +1,74 @@
+.course-panel{
+  min-width: 727px;
+  background-color: #F9F9F9;
+  padding: 30px 16px;
+  box-sizing: border-box;
+  border-left: 1px solid #00000052
+}
+.course-panel-header{
+  display: grid;
+  grid-template-columns: 14px auto 1fr auto;
+  column-gap: 24px;
+    align-items: center;
+    padding: 12px 0;
+}
+.course-panel-header button{
+  cursor: pointer;
+}
+.course-panel .course-panel-header svg{
+  transform: rotate(270deg);
+  width: 14px;
+
+}
+.minimize-all-btn{
+  color: var(--primary);
+  font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+border-bottom: 1px dashed var(--primary);
+cursor: pointer;
+}
+.course-panel.closed{
+  min-width: 280px;
+  padding: 40px 24px;
+
+}
+.course-panel.closed .course-panel-header{
+  grid-template-columns: 14px 1fr ;
+}
+.course-panel.closed .select-wrapper, .course-panel.closed .minimize-all-btn,.course-panel.closed .course-panel-control{
+  display: none;
+}
+
+.course-panel.closed .course-panel-header svg{
+  transform: rotate(90deg);
+}
+.panel-header-title{
+  font-weight: 500;
+font-size: 22px;
+line-height: 26px;
+color: var(--black);
+}
+.course-panel-control{
+  display: grid;
+  grid-template-columns: repeat(3,33%);
+}
+.course-panel-control button{
+  padding: 14px 0;
+  text-align: center;
+  border-bottom: 2px solid #d6d6d6;
+  color: #474747;
+font-size: 14px;
+line-height: 16px;
+text-align: center;
+letter-spacing: 0.04em;
+text-transform: uppercase;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+cursor: pointer;
+} 
+.control-button.active{
+  border-bottom: 2px solid var(--primary);
+  color: var(--black);
+}

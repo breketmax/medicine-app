@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import supplementReducer from "./reducers/SupplementSlice";
 import modalReducer from "./reducers/ModalSlice";
+import courseReducer from "./reducers/CourseSlice";
 
 const rootReducer = combineReducers({
   supplementReducer,
-  modalReducer
+  modalReducer,
+  courseReducer
 })
 
 export const store = configureStore({

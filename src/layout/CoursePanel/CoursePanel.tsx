@@ -42,7 +42,7 @@ const CoursePanel = () => {
         <button className={view === 'bySupplement' ? 'btn control-button active' : 'btn control-button'} onClick={() => dispatch(changeView('bySupplement'))}>По биодобавке</button>
         <button className='btn control-button'></button>
       </div>
-      {courseSupplements.length ? <CourseList /> : "Выберите биодобавку, чтобы собрать свой персональный курс"}
+      {courseSupplements.length ? <CourseList /> : <h2 className='no-supplements-title'>Выберите биодобавку, чтобы собрать свой персональный курс</h2> }
       
     </div>
   );

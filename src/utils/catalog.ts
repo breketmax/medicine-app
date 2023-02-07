@@ -38,7 +38,6 @@ const sortSupplements = (supplements:ISupp[],filter:string) =>{
   let sort:string;
   let field:string;
 
-
   if(params){
     field = params[1];
     sort = params[2]
@@ -138,23 +137,36 @@ export const validateTime =(prev:string,value:string):string =>{
   if(/[^:\d]/gm.test(value)){   //ban for non digit characters
     return prev
   }
+  if(value.length > 5) return prev;
+  let timeStr = "";
+  const [hours,minutes]:string[] = value.split(":")    //calculate correct of hrs and min
+  
+  if(value.length===1){
+    if( +value <3 || +value>9){
+      timeStr = timeStr.length ===1 ? value + ":" : value
+    }
+    else{
+      timeStr = `0${value}:`
+    }
+    return timeStr;
+  }
+  
 
-  let [hours,minutes]:string[] = value.split(":")    //calculate correct of hrs and mts
-  if(+hours >23 || +minutes > 59 || value.length > 5){
-    if(+hours > 99) return value.slice(0,2) + ":" + value.slice(2)
+  if(+hours >23 || +minutes > 59){
+    if(+hours > 99  ){
+      return value.slice(0,2) + ":" + value.slice(2)
+    }
     return prev.length === 2 ? prev + ":": prev
   }
-
-
   return value;
 };
 
 export const getCourseString = (timeSchedule:ModalState[],time:string):string =>{
   let sumDoze:number = 0;
   timeSchedule.forEach(ts => {
-    sumDoze += ts.inDay.filter( t => t.time === time)[0].doza
+    sumDoze += ts.inDay.filter( t => t.time === time)[0].doza;
   })
   let courseString = sumDoze + " шт: ";
-  courseString += timeSchedule.map(sup => (" " + sup.supplement.GoodsCommercialName+ " " + sup.inDay.filter(t => t.time === time)[0].doza + "шт"))
-  return courseString 
+  courseString += timeSchedule.map(sup => (" " + sup.supplement.GoodsCommercialName+ " " + sup.inDay.filter(t => t.time === time)[0].doza + "шт"));
+  return courseString;
 };

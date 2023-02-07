@@ -45,10 +45,8 @@ const modalSlice = createSlice({
     setModalProduct(state,action:PayloadAction<ISupp>){
       state.supplement = action.payload;
     },
-    unsetModalProduct(state){
-      state.supplement = initialState.supplement;
-      state.inDay = initialState.inDay;
-      state.period = initialState.period;
+    unsetModalProduct(){
+      return initialState;
     },
     changeInDay(state,action:PayloadAction<IInDay[]>){
       state.inDay.push(...action.payload)
@@ -66,11 +64,7 @@ const modalSlice = createSlice({
       state.inDay[action.payload.i].doza = action.payload.dozeValue
     },
     deleteTaking(state,action:PayloadAction<number>){
-      if(state.inDay.length === 1){
-        state.inDay = state.inDay.filter((_,i) => i !== action.payload);
-        state = initialState; 
-        return;
-      }
+      if(state.inDay.length === 1) return initialState;
       state.inDay = state.inDay.filter((_,i) => i !== action.payload) 
     },
   },

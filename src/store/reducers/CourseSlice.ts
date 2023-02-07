@@ -21,9 +21,7 @@ const courseSlice = createSlice({
       let sortedCourse:CourseSupplement[] = [...state.courseSupplements,newCourseItem];
       sortedCourse.sort((a,b) => a.supplementSchedule.inDay.length > b.supplementSchedule.inDay.length ? 1:-1)
       state.courseSupplements = sortedCourse;
-
       let timeCourseCopy:ITimeCourse = JSON.parse(JSON.stringify(state.timeCourse));
-
       action.payload.inDay.map(day => {
         if(!timeCourseCopy[day.time]){
           timeCourseCopy[day.time]= {
@@ -33,8 +31,7 @@ const courseSlice = createSlice({
         }
         else{
           timeCourseCopy[day.time].supplementsByTime.push(action.payload)
-        }
-        
+        } 
       })
       state.timeCourse = {};
       let sortedTimes = Object.keys(timeCourseCopy).sort((a,b) => a > b ? 1 : -1);

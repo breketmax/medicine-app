@@ -7,8 +7,7 @@ export interface ICourse{
   timeCourse:ITimeCourse
 }
 
-export interface CourseSupplement{
-  supplementSchedule:ModalState,
+export interface CourseSupplement extends ModalState{
   isMinimized:boolean
 }
 
@@ -21,14 +20,25 @@ export interface ITime{
 }
 export interface IOneDay{
   time:string,
-  article:string
+  itemIndex:number
 }
 
 export interface IChangeInDay{
-  article:string,
+  itemIndex:number,
   newInDay:IInDay[]
 }
 export interface ISliceInDay{
-  article:string,
+  itemIndex:number,
   index:number
+}
+
+export interface IChangeTime{
+  itemIndex:number,
+  timeIndex:number,
+  timeValue:string
+}
+export interface IChangeDoze{
+  itemIndex:number,
+  timeIndex:number,
+  dozeValue:number
 }

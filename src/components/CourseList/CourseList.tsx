@@ -1,12 +1,17 @@
-import React from 'react';
-import {  useAppSelector } from '../../hooks/redux';
+import React, { useEffect } from 'react';
+import {  useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { rerenderTimeCourse } from '../../store/reducers/CourseSlice';
 import CourseSupplementItem from '../CourseSupplementItem/CourseSupplementItem';
 import CourseTimeItem from '../CourseTimetItem/CourseTimeItem';
 import "./CourseList.css";
 
 const CourseList:React.FC = () => {
   const {courseSupplements,view,timeCourse} = useAppSelector(state => state.rootReducer.courseReducer);
+  const dispatch = useAppDispatch();
 
+  useEffect(()=>{
+    dispatch(rerenderTimeCourse())
+  },[courseSupplements]);
 
   if(view === 'bySupplement'){
     return (

@@ -61,7 +61,7 @@ const CourseTimeItem:React.FC<ICourseTimetItem> = ({timeSchedule,isMinimized,tim
     dispatch(deleteTime(time))
   }
   const deleteTakeFromCourse =(article:string) => {
-    dispatch(deleteOneTake({article,time}))
+    // dispatch(deleteOneTake({article,time}))
   }
   return (
         <div className={isMinimized ? "course-time-item minimized" : "course-time-item"} >

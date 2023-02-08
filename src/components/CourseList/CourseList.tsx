@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import {  useAppSelector } from '../../hooks/redux';
 import CourseSupplementItem from '../CourseSupplementItem/CourseSupplementItem';
 import CourseTimeItem from '../CourseTimetItem/CourseTimeItem';
 import "./CourseList.css";

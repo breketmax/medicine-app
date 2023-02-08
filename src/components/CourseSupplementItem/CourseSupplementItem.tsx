@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
-import { changeDose, changeInDay, changeTime, deleteTaking, ModalState, sliceInDay, sortTimes } from '../../store/reducers/ModalSlice';
+import { changeDose, changeTime, ModalState, sortTimes } from '../../store/reducers/ModalSlice';
 import { IInDay } from '../../types/ISchedule';
 import { calcNextScheduleTime, getScheduleString, validateTime } from '../../utils/catalog';
 import "./CourseSupplementItem.css";
@@ -9,7 +9,7 @@ import Select from '../Select/Select';
 import {ReactComponent as Arrow} from "./arrow.svg";
 import {ReactComponent as Close} from "./close.svg";
 import {ReactComponent as Delete} from "./delete.svg";
-import { minimizeCard } from '../../store/reducers/CourseSlice';
+import { changeInDayCourse, deleteOneTake, deleteSupplement, minimizeCard, sliceInDayCourse } from '../../store/reducers/CourseSlice';
 
 interface ISupplementItem{
   itemIndex:number,
@@ -82,7 +82,7 @@ const CourseSupplementItem:React.FC<ISupplementItem> = ({supplementSchedule:{inD
   }
   const handleInDay = (e:React.ChangeEvent<HTMLSelectElement>) => {
     if(inDay.length > +e.target.value){
-      dispatch(sliceInDay(+e.target.value))
+      dispatch(sliceInDayCourse({article:supplement.Article, index:+e.target.value}))
     }
     else{
       let additionalDayTaking:IInDay[] = [];
@@ -93,14 +93,14 @@ const CourseSupplementItem:React.FC<ISupplementItem> = ({supplementSchedule:{inD
         }
         additionalDayTaking.push(newDayTake);
       }
-      dispatch(changeInDay(additionalDayTaking));
+      dispatch(changeInDayCourse({article:supplement.Article,newInDay:additionalDayTaking}));
     }
   }
   const changeDoseHandler = (e:React.ChangeEvent<HTMLSelectElement>,i:number) => {
     dispatch(changeDose({i,dozeValue:+e.target.value}))
   }
-  const handleTaking =(i:number) => {
-    dispatch(deleteTaking(i))
+  const deleteTakeFromCourse =(time:string) => {
+    dispatch(deleteOneTake({article:supplement.Article,time}))
   }
 
   const orderTimesHandler = (i:number) =>{
@@ -125,6 +125,10 @@ const CourseSupplementItem:React.FC<ISupplementItem> = ({supplementSchedule:{inD
     dispatch(minimizeCard(itemIndex));
   };
 
+  const deleteFromCourse = () => {
+    dispatch(deleteSupplement(supplement.Article))
+  };
+
   return (
         <div className={isMinimized ? "course-supplement-item minimized" : "course-supplement-item"} >
             <div className="csi-header">
@@ -132,7 +136,7 @@ const CourseSupplementItem:React.FC<ISupplementItem> = ({supplementSchedule:{inD
               <div className="csi-image"><img src={supplement.Picture} alt="product-preview" /></div>
               <div className="csi-name">{supplement.GoodsCommercialName}</div>
               <div className="csi-info">{getScheduleString(inDay)}</div>
-              <button className="csi-delete-btn"><Delete/></button>
+              <button className="csi-delete-btn" onClick={deleteFromCourse}><Delete/></button>
             </div>
               <div className="csi-body-wrapper">
                 <div className="csi-body">
@@ -144,11 +148,11 @@ const CourseSupplementItem:React.FC<ISupplementItem> = ({supplementSchedule:{inD
                   {inDay.map((ind,i) => (
                     i === 0 ? <div className="computed-body" key={i}>
                     <Input title="Время" onChange={(e) => changeTimeHandler(e,i)} value={ind.time} onBlur={() => orderTimesHandler(i)} onFocus={saveStartValue}/>
-                    <Select title='Дозировка' options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day"  onClick={() => handleTaking(i)}><Close/></button></Select>   
+                    <Select title='Дозировка' options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day"  onClick={() => deleteTakeFromCourse(ind.time)}><Close/></button></Select>   
                   </div> :
                      <div className="computed-body" key={i}>
                      <Input onChange={(e) => changeTimeHandler(e,i)}  value={ind.time} onBlur={() => orderTimesHandler(i)} onFocus={saveStartValue}/>
-                     <Select options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day" onClick={() => handleTaking(i)}><Close/></button></Select>   
+                     <Select options={doza} selected defaultValue={1} onChange={(e) => changeDoseHandler(e,i)}><button className="delete-day" onClick={() => deleteTakeFromCourse(ind.time)}><Close/></button></Select>   
                    </div>
                   ))}
                   </div>

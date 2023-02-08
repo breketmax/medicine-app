@@ -137,28 +137,63 @@ export const validateTime =(prev:string,value:string):string =>{
   if(/[^:\d]/gm.test(value)){   //ban for non digit characters
     return prev
   }
-  if(value.length > 5) return prev;
-  let timeStr = "";
   const [hours,minutes]:string[] = value.split(":")    //calculate correct of hrs and min
-  
-  if(value.length===1){
-    if( +value <3 || +value>9){
-      timeStr = timeStr.length ===1 ? value + ":" : value
-    }
-    else{
-      timeStr = `0${value}:`
-    }
-    return timeStr;
+
+  switch (value.length){
+    case 0:
+      return value
+    case 1:
+      if(+value >= 0 && +value < 3){
+        return value
+      }
+      else{
+        return "0" + value + ":"
+      }
+    case 2:
+      if (+value > 23){
+        return value.slice(0,1) + ":" + value.slice(1)
+      }
+      else{
+        return value + ":"
+      }
+    case 3:
+      if(prev.length > value.length){
+        return value.slice(0,2)
+      }
+      return value
+    case 4:
+      if(+minutes > 5){
+        return prev
+      }
+      return value
+    case 5:
+      if(+minutes > 59){
+        return prev
+      }
+      return value
+    default:
+      return prev
+
   }
+  
+  // if(value.length===1){
+  //   if( +value <3 || +value>9){
+  //     timeStr = timeStr.length ===1 ? value + ":" : value
+  //   }
+  //   else{
+  //     timeStr = `0${value}:`
+  //   }
+  //   return timeStr;
+  // }
   
 
-  if(+hours >23 || +minutes > 59){
-    if(+hours > 99  ){
-      return value.slice(0,2) + ":" + value.slice(2)
-    }
-    return prev.length === 2 ? prev + ":": prev
-  }
-  return value;
+  // if(+hours >23 || +minutes > 59){
+  //   if(+hours > 99  ){
+  //     return value.slice(0,2) + ":" + value.slice(2)
+  //   }
+  //   return prev.length === 2 ? prev + ":": prev
+  // }
+  // return value;
 };
 
 export const getCourseString = (timeSchedule:ModalState[],time:string):string =>{

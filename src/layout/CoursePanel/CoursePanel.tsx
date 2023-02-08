@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./CoursePanel.css"
 import {ReactComponent as Arrow} from "./arrow.svg";
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -19,6 +19,7 @@ const CoursePanel = () => {
     {name:"1,5 месяца",value:"1.5m"},
     {name:"2 месяца",value:"2m"},
   ]; 
+
 
   const minimizeAll = () =>{
     dispatch(minimizeAllCard());

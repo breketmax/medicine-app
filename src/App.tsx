@@ -9,7 +9,7 @@ import CoursePanel from './layout/CoursePanel/CoursePanel';
 
 function App() {
   const dispatch = useAppDispatch();
-  const {supplements,error,isLoading} = useAppSelector(state => state.rootReducer.supplementReducer)
+  const {isLoading} = useAppSelector(state => state.rootReducer.supplementReducer)
 
   useEffect(() => {
     dispatch(fetchSupplement());

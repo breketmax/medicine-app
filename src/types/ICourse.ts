@@ -42,3 +42,12 @@ export interface IChangeDoze{
   timeIndex:number,
   dozeValue:number
 }
+export interface IDeleteTake{
+  article:string,
+  time:string
+}
+export interface IChangeDozeArticle{
+  article:string,
+  doze:number,
+  time:string
+}

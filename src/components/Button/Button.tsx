@@ -9,7 +9,7 @@ interface ButtonProps{
 
 const Button:React.FC<ButtonProps> = ({children,onClick,status}) => {
   return (
-    <button className="custom-btn" onClick={onClick}>
+    <button className={status ? "custom-btn add" : "custom-btn"} onClick={onClick}>
       {children}
     </button>
   );

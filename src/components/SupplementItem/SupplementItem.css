@@ -1,6 +1,6 @@
 .supplement_item{
   display: grid;
-  grid-template-columns: 56px 200px auto 140px 110px;
+  grid-template-columns: 56px 200px auto 140px 120px;
   grid-auto-flow: row;
   border-top: 2px solid rgba(0, 0, 0, 0.16);
   column-gap: 25px;

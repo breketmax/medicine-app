@@ -1,4 +1,4 @@
-import { IChangeInDay, IChangeTime, IOneDay, ISliceInDay, ITimeCourse, IChangeDoze } from './../../types/ICourse';
+import { IChangeInDay, IChangeTime, IOneDay, ISliceInDay, ITimeCourse, IChangeDoze, IDeleteTake, IChangeDozeArticle } from './../../types/ICourse';
 import { ModalState } from './ModalSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
@@ -20,7 +20,9 @@ const courseSlice = createSlice({
     addSupplementInCourse(state,action:PayloadAction<ModalState>){
       let newCourseItem:CourseSupplement = {...action.payload,isMinimized:true};
       state.courseSupplements.push(newCourseItem);
-      state.courseSupplements.sort((a,b) => a.inDay.length > b.inDay.length ? 1:-1)
+      state.courseSupplements.sort((a,b) => a.inDay.length > b.inDay.length ? 1:-1);
+
+      
     },
     rerenderTimeCourse(state){
       let timeCourseCopy:ITimeCourse = {};
@@ -86,6 +88,24 @@ const courseSlice = createSlice({
     },
     changeDozeCourse(state,action:PayloadAction<IChangeDoze>){
       state.courseSupplements[action.payload.itemIndex].inDay[action.payload.timeIndex].doza = action.payload.dozeValue;
+    },
+    deleteOneTakeArticle(state,action:PayloadAction<IDeleteTake>){
+      state.courseSupplements.forEach((_,index)=>{
+        if(state.courseSupplements[index].supplement.Article === action.payload.article){
+          state.courseSupplements[index].inDay =  state.courseSupplements[index].inDay.filter(timeItem => timeItem.time !== action.payload.time);
+        }
+      });
+    },
+    changeDozeCourseArticle(state,action:PayloadAction<IChangeDozeArticle>){
+      state.courseSupplements.forEach((_,index)=>{
+        if(state.courseSupplements[index].supplement.Article === action.payload.article){
+          state.courseSupplements[index].inDay.forEach((item,ind) =>{
+            if(item.time === action.payload.time) {
+              state.courseSupplements[index].inDay[ind].doza = action.payload.doze
+            }
+          });
+        }
+      });
     }
   }
 });
@@ -106,4 +126,6 @@ export const {
   minimizeTimeCard,
   changeTimeCourse,
   changeDozeCourse,
+  deleteOneTakeArticle,
+  changeDozeCourseArticle,
 } = courseSlice.actions;

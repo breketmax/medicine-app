@@ -17,7 +17,7 @@ const SupplementItem:React.FC<ISupp> = (supplement) => {
       <div className="supplement-name">{supplement.GoodsCommercialName}</div>
       <div className="supplement-description">{supplement.CommercialDescription}</div>
       <div className="supplement-price">{supplement.CurrentPrices} ₽</div>
-      <Button onClick={()=>{handleModal(supplement)}} status={true}>Добавить</Button>
+      {supplement.isAdd ? <Button onClick={()=>{}} status={supplement.isAdd}>Добавлено</Button> : <Button onClick={()=>{handleModal(supplement)}} status={supplement.isAdd}>Добавить</Button>}
     </div>
   );
 };

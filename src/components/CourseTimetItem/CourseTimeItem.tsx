@@ -8,7 +8,7 @@ import Select from '../Select/Select';
 import {ReactComponent as Arrow} from "./arrow.svg";
 import {ReactComponent as Close} from "./close.svg";
 import {ReactComponent as Delete} from "./delete.svg";
-import { deleteOneTake, deleteTime, minimizeTimeCard } from '../../store/reducers/CourseSlice';
+import { changeDozeCourseArticle, deleteOneTake, deleteOneTakeArticle, deleteTime, minimizeTimeCard } from '../../store/reducers/CourseSlice';
 
 
 interface ICourseTimetItem{
@@ -56,13 +56,16 @@ const CourseTimeItem:React.FC<ICourseTimetItem> = ({timeSchedule,isMinimized,tim
   const minimizeItem = () =>{
     dispatch(minimizeTimeCard(time));
   };
-
   const deleteTimeInCourse =() => {
     dispatch(deleteTime(time))
   }
   const deleteTakeFromCourse =(article:string) => {
-    // dispatch(deleteOneTake({article,time}))
+    dispatch(deleteOneTakeArticle({article,time}))
   }
+  const changeDozeInCourse = (article:string,e:React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(changeDozeCourseArticle({article,doze:+e.target.value,time}))
+  }
+
   return (
         <div className={isMinimized ? "course-time-item minimized" : "course-time-item"} >
             <div className="cti-header">
@@ -77,7 +80,7 @@ const CourseTimeItem:React.FC<ICourseTimetItem> = ({timeSchedule,isMinimized,tim
                     <div className='cti-item'>
                        <div className="cti-image"><img src={tm.supplement.Picture} alt="product-preview" /></div>
                        <div className="cti-name">{tm.supplement.GoodsCommercialName}</div>
-                       <Select options={doza} selected value={tm.inDay.filter(t => t.time === time)[0].doza} onChange={(e) => {}}><button className="delete-day" onClick={() => deleteTakeFromCourse(tm.supplement.Article)}><Close/></button></Select>   
+                       <Select options={doza} selected value={tm.inDay.filter(t => t.time === time)[0].doza} onChange={(e) => changeDozeInCourse(tm.supplement.Article,e)}><button className="delete-day" onClick={() => deleteTakeFromCourse(tm.supplement.Article)}><Close/></button></Select>   
                     </div>
                   ))}
                 </div>

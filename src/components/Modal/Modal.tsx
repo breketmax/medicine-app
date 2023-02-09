@@ -9,6 +9,7 @@ import Button from '../Button/Button';
 import { IInDay } from '../../types/ISchedule';
 import { calcNextScheduleTime, getScheduleString, validateTime } from '../../utils/catalog';
 import { addSupplementInCourse } from '../../store/reducers/CourseSlice';
+import { changeSupplementStatus } from '../../store/reducers/SupplementSlice';
 
 
  
@@ -134,7 +135,8 @@ const Modal:React.FC = () => {
   const saveStartValue = (e:React.FocusEvent<HTMLInputElement>) => {
     setInputStartValue(e.target.value);
   };
-  const addInCourse = () => {
+  const addInCourse = (article:string) => {
+    dispatch(changeSupplementStatus({article,status:true}))
     dispatch(unsetModalProduct());
     dispatch(addSupplementInCourse({inDay,period,supplement}))
   }
@@ -167,7 +169,7 @@ const Modal:React.FC = () => {
                 ))}
                 </div>
               </div>
-              <Button onClick={addInCourse} status={true}>Добавить в курс</Button>
+              <Button onClick={() => addInCourse(supplement.Article)} status={false}>Добавить в курс</Button>
             </div>
 
         </div>

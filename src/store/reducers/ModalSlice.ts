@@ -24,8 +24,8 @@ const initialState:ModalState ={
     GoodsCommercialName:"",
     Picture:"",
     Purposes:[],
-    SupplementForm:""
-
+    SupplementForm:"",
+    isAdd:false
   },
   period: 'Ежедневно',
   inDay:[

@@ -10,10 +10,15 @@ export interface ISupp{
   CommercialDescription: string,
   SupplementForm: string,
   Purposes:IPurpose[],
-  CurrentPrices:number
+  CurrentPrices:number,
+  isAdd: boolean
 }
 
 export interface IPurpose{
   Purpose:string,
   PurposePicture:string
+}
+export interface ISupStatus{
+  article:string,
+  status:boolean
 }

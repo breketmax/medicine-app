@@ -1,5 +1,5 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
-import { ISupplement } from "../../types/ISupplement";
+import { ISupplement, ISupStatus } from "../../types/ISupplement";
 import { fetchSupplement } from "./ActionCreator";
 
 
@@ -32,6 +32,13 @@ const supplementSlice = createSlice({
     changeFilter(state,action:PayloadAction<string>){
       state.filter = action.payload;
     },
+    changeSupplementStatus(state,action:PayloadAction<ISupStatus>){
+      state.supplements.SupplementsList.forEach(sup => {
+        if(sup.Article === action.payload.article){
+          sup.isAdd = action.payload.status
+        }
+      });
+    }
   },
   extraReducers:{
     [fetchSupplement.pending.type]:(state)=>{
@@ -39,6 +46,7 @@ const supplementSlice = createSlice({
     },
     [fetchSupplement.fulfilled.type]:(state,action:PayloadAction<ISupplement>) =>{
       state.supplements = action.payload;
+      state.supplements.SupplementsList.forEach(sup => sup.isAdd = false)
       state.isLoading = false;
       state.error = ''
     },
@@ -52,4 +60,4 @@ const supplementSlice = createSlice({
 
 
 export default supplementSlice.reducer;
-export const {changeActiveCatalog,changeFilter} = supplementSlice.actions;
+export const {changeActiveCatalog,changeFilter,changeSupplementStatus} = supplementSlice.actions;
